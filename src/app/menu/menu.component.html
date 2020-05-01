@@ -1,0 +1,103 @@
+<div class="container">
+
+    <div class="row">
+        <form class="col s3">
+          <div class="row">
+                <div class="input-field col s6">
+                <input id="rpm" type="text" class="validate"  (blur)="convertRPM(rpm.value)" #rpm>
+                <label for="rpm">RPM</label>
+                <p>{{ value_convert_rpm_rad | number}}</p>
+                </div>
+           </div>
+        </form>
+
+        <form class="col s3">
+            <div class="row">
+                  <div class="input-field col s6">
+                  <input id="rad" type="text" class="validate" (blur)="convertRAD(rad.value)" #rad>
+                  <label for="rad">RAD/S</label>
+                  <p> {{ value_convert_rad_rpm | number }} </p>
+                  </div>
+             </div>
+          </form>
+
+          <form class="col s3">
+            <div class="row">
+                  <div class="input-field col s6">
+                  <input id="delta_theta" type="text" class="validate">
+                  <label for="delta_theta">Theta (deg)</label>
+                  </div>
+             </div>
+          </form>
+    </div>
+
+    <div class="row"> 
+          <form class="col 12" [formGroup]="productForm">
+                <label>
+                      Camadas: <input formControlName="qtdLayer" (blur)="addSellingPoint(qtdLayer.value)" #qtdLayer/>
+                </label>
+
+                <div formArrayName="selling_points">
+                  <div *ngFor="let item of sellingPoints.controls; let pointIndex=index" [formGroupName]="pointIndex">
+                    <div class="row">
+                      <div class="col s1">
+                        <label>
+                          Beta: <p *ngFor="let b of beta">{{ b }}</p>
+                        </label>
+                      </div>         
+                      <div class="col s1">
+                        <label>
+                          Tempo I: <input formControlName="tempo_inicio" />
+                        </label>
+                      </div>
+                      <div class="col s1">
+                        <label>
+                          Tempo F: <input formControlName="tempo_fim" />
+                        </label>
+                      </div>
+                      
+                      <div class="input-field col s2">
+                        <label>Movimento</label>
+                        <br>
+                          <select class="browser-default" formControlName="movimento">
+                            <option value="" disabled selected>Tipo de Movimento</option>
+                            <option value="Rise">Subida</option>
+                            <option value="Fall">Descida</option>
+                            <option value="Poly">Repouso</option>
+                          </select>
+                      </div>
+
+                      <div class="input-field col s2">
+                        <label>Programa</label>
+                        <br>
+                          <select class="browser-default" formControlName="tipo_programa">
+                            <option value="" disabled selected>Tipo de Progr.</option>
+                            <option value="Sine">Velocidade Constante</option>
+                            <option value="Trap">Harmonico Simples</option>
+                            <option value="Full">Parabolico</option>
+                            <option value="Full">Cicloidal</option>
+                          </select>
+                      </div>
+
+                      <div class="col s1">
+                        <label>
+                          Posicao I: <input formControlName="posicao_inicial" />
+                        </label>
+                      </div>
+                      <div class="col s1">
+                        <label>
+                          Posicao F: <input formControlName="posicao_fim" />
+                        </label>
+                      </div>
+                      
+                    </div>
+                     <!-- <button type="button" (click)="deleteSellingPoint(pointIndex)">Delete Selling Point</button>-->
+                  </div>
+                </div>
+                <button type="button" (click)="calcular()">Calcular</button>
+          </form>
+      </div>
+
+          {{ this.productForm.value | json }}
+
+</div>
